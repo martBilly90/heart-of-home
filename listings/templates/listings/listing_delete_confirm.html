@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Deletion | Rentify Uganda{% endblock %}
+
+{% block content %}
+<div class="delete-confirm-container" style="padding-top: 40px; text-align: center;">
+    <h1>Confirm Deletion</h1>
+    <p>Are you sure you want to permanently delete "{{ listing.title }}"?</p>
+    <p><strong>This action cannot be undone.</strong></p>
+
+    <form method="post">
+        {% csrf_token %}
+        <a href="{% url 'listing-detail' listing.pk %}" class="btn" style="background-color: #aaa; text-decoration: none; margin-right: 10px;">Cancel</a>
+        <button type="submit" class="btn" style="background-color: #d9534f;">Confirm Delete</button>
+        <button type="submit" class="btn">Save Changes</button>
+        <a href="{% url 'delete-listing' listing.pk %}" class="btn" style="background-color: #c9302c; text-decoration: none; margin-left: 10px;">Delete Listing</a>
+    </form>
+</div>
+{% endblock %}

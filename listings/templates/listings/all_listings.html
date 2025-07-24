@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}All Listings | Rentify Uganda{% endblock %}
+
+{% block content %}
+    <section class="listings">
+        <h1>Browse All Listings</h1>
+        <form class="search-form" method="get">
+            <input type="text" name="q" placeholder="Search by location or property type..."
+                   value="{{ request.GET.q }}">
+            <button type="submit">Filter</button>
+        </form>
+
+        <div class="card-grid">
+            {% for listing in listings %}
+                <div class="card">
+                    <a href="{% url 'listing-detail' listing.pk %}">
+                        {% if listing.main_image %}
+                            <img src="{{ listing.main_image.url }}" alt="{{ listing.title }}">
+                        {% endif %}
+                    </a>
+                    <div class="card-body">
+                        <h3>{{ listing.title }}</h3>
+                        <p>{{ listing.location }}</p>
+                        <p class="price">UGX {{ listing.price|floatformat:0 }}/month</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No listings match your search.</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

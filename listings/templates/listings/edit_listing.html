@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit {{ listing.title }} | Rentify Uganda{% endblock %}
+
+{% block content %}
+<div class="edit-listing-container" style="padding-top: 40px; max-width: 600px; margin: auto;">
+    <h1>Edit Your Listing</h1>
+    <p>Update the details for "{{ listing.title }}".</p>
+
+    <form method="post" enctype="multipart/form-data" class="contact-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Save Changes</button>
+        <a href="{% url 'delete-listing' listing.pk %}" class="btn" style="background-color: #c9302c; text-decoration: none; margin-left: 10px;">Delete Listing</a>
+    </form>
+</div>
+{% endblock %}

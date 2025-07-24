@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile | Rentify Uganda{% endblock %}
+
+{% block content %}
+<div class="profile-container" style="padding-top: 40px;">
+    <h1>Welcome, {{ user.first_name|default:user.username }}!</h1>
+    <p>This is your personal dashboard. You can manage your listings here.</p>
+    
+    <hr style="margin: 30px 0;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>My Listings</h2>
+        <a href="{% url 'create-listing' %}" class="btn">Create New Listing</a>
+    </div>
+
+    <div class="card-grid">
+        {% for listing in my_listings %}
+            <div class="card">
+                <a href="{% url 'listing-detail' listing.pk %}">
+                    {% if listing.main_image %}
+                        <img src="{{ listing.main_image.url }}" alt="{{ listing.title }}">
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h3>{{ listing.title }}</h3>
+                    <p>{{ listing.location }}</p>
+                    <p class="price">UGX {{ listing.price|floatformat:0 }}/month</p>
+                    <hr style="margin: 10px 0;">
+                    <a href="{% url 'edit-listing' listing.pk %}" style="font-weight: bold; text-decoration: none; color: #4CAF50;">Edit Listing</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>You have not created any listings yet.</p>
+        {% endfor %}
+    </div>
+
+    <hr style="margin: 30px 0;">
+
+    <h2>My Saved Listings</h2>
+    <div class="card-grid">
+        {% for listing in saved_listings %}
+            <div class="card">
+                <a href="{% url 'listing-detail' listing.pk %}">
+                    {% if listing.main_image %}
+                        <img src="{{ listing.main_image.url }}" alt="{{ listing.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h3>{{ listing.title }}</h3>
+                        <p>{{ listing.location }}</p>
+                        <p class="price">UGX {{ listing.price|floatformat:0 }}/month</p>
+                    </div>
+                </a>
+            </div>
+        {% empty %}
+            <p>You have no saved listings.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

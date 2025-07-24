@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ listing.title }} | Rentify Uganda{% endblock %}
+
+{% block content %}
+    <section class="property-details" style="padding-top: 40px;">
+        <h1>{{ listing.title }}</h1>
+        <p><strong>Location:</strong> {{ listing.location }}</p>
+        <p class="price">UGX {{ listing.price|floatformat:0 }}/month</p>
+
+        <div class="gallery">
+            {% if listing.main_image %}
+                <img src="{{ listing.main_image.url }}" alt="{{ listing.title }}" class="main-img">
+            {% endif %}
+        </div>
+
+        <div class="description">
+            <h3>Property Description</h3>
+            <p>{{ listing.description|linebreaks }}</p>
+
+            <h3>Details</h3>
+            <ul>
+                <li>Bedrooms: {{ listing.bedrooms }}</li>
+                <li>Bathrooms: {{ listing.bathrooms }}</li>
+                <li>Area: {{ listing.sqft }} sqft</li>
+            </ul>
+
+            {% if user.is_authenticated and user != listing.owner %}
+                <a href="{% url 'send-message' listing.pk %}" class="btn">Contact Owner</a>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

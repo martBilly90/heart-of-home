@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Home | Heart of Home{% endblock %}
+{% block content %}
+    <section class="hero">
+        <div class="container">
+            <h1>Find a Home You'll Love</h1>
+            <p>Rent apartments, houses, and more anywhere in Uganda</p>
+            <form class="search-form" method="get" action="{% url 'all-listings' %}">
+                <input type="text" name="q" placeholder="Search by location or type..." />
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </section>
+    <section class="listings">
+        <div class="container">
+            <h2>Featured Listings</h2>
+            <div class="card-grid">
+                {% for listing in listings %}
+                    <div class="card">
+                        <a href="{% url 'listing-detail' listing.pk %}">
+                            <img src="{{ listing.main_image.url }}" alt="{{ listing.title }}">
+                        </a>
+                        <div class="card-body">
+                            <h3>{{ listing.title }}</h3>
+                            <p>{{ listing.location }}</p>
+                            <p class="price">UGX {{ listing.price|floatformat:0 }}/month</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No featured listings are available at the moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Agents | Heart of Home{% endblock %}
+
+{% block content %}
+<section class="listings" style="padding-top: 40px;">
+    <div class="container">
+        <h1 style="text-align: center;">Meet Our Professional Agents</h1>
+
+        <div class="card-grid">
+            {% for agent in agents %}
+                <div class="card">
+                    {% if agent.photo %}
+                        <img src="{{ agent.photo.url }}" alt="{{ agent.user.get_full_name|default:agent.user.username }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h3>{{ agent.user.get_full_name|default:agent.user.username }}</h3>
+                        <p>{{ agent.bio }}</p>
+                        <a href="#" class="btn">Contact</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p>We currently have no agents listed.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
